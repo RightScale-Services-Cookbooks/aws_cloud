@@ -14,7 +14,23 @@ recipe "aws::vpc-nat", "Enable AWS VPC NAT instance ipforwarding and iptables"
 recipe "aws::vpc-nat-ha", "Configures NAT Monitor for NAT instance HA."
 recipe "aws::start-nat-monitor", "Start NAT monitor"
 recipe "aws::stop-nat-monitor", "Stop NAT monitor"
-recipe "aws::recipes/do_install_awscli", "installs aws cli"
+recipe "aws::do_install_awscli", "installs aws cli"
+
+attribute "aws/aws_access_key_id",
+  :display_name => "AWS_ACCESS_KEY_ID",
+  :description => "Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID)",
+  :required => "required"
+
+attribute "aws/aws_secret_access_key",
+  :display_name => "AWS_SECRET_ACCESS_KEY",
+  :description => "Use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY)",
+  :required => "required"
+
+attribute "aws/region",
+  :display_name => "AWS Region",
+  :description => "AWS Region",
+  :required => "required",
+  :recipes => [ "aws::do_install_awscli" ]
 
 attribute "aws/ses/username", 
   :display_name => "SES Username",

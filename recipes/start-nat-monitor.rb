@@ -9,7 +9,7 @@
 
 rightscale_marker :begin
 
-aws "start monitor" do
+aws_nat "start monitor" do
   action :start_nat_monitor
   only_if {node[:aws][:vpc_nat][:nat_ha]=='enabled'}
 end

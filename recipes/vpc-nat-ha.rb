@@ -52,7 +52,7 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
     EOH
   end
 
-  aws "start monitor" do
+  aws_nat "start monitor" do
     action :start_nat_monitor
   end
  

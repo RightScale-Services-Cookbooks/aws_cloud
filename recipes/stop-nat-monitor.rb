@@ -9,7 +9,7 @@
 
 rightscale_marker :begin
 
-aws "stop nat monitor" do
+aws_nat "stop nat monitor" do
   action :stop_nat_monitor
 end
 
