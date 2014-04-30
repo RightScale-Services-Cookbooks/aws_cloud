@@ -16,3 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+include_recipe "python::pip"
+
+python_pip "awscli" do
+  version "1.3.8"
+  action :install
+end
+

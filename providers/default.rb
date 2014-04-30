@@ -1,4 +1,11 @@
 action :create_cred_file do
+  directory "/root/.aws" do
+    owner "root"
+    group "root"
+    mode "0600"
+    action :create
+  end
+
   template "/root/.aws/config" do
     source "aws_config.erb"
     owner "root"
@@ -14,6 +21,10 @@ end
 action :delete_cred_file do
   file "/root/.aws/config" do
     backup false
+    action :delete
+  end
+  
+  directory "/root/.aws" do
     action :delete
   end
 end
