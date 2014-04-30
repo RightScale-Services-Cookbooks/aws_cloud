@@ -1,6 +1,7 @@
 rightscale_marker :begin
 
-python_pip "awscli" do 
+python_pip "awscli" do
+  version "1.3.8"
   action :install
 end
 
