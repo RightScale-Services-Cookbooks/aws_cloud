@@ -14,6 +14,7 @@ recipe "aws::vpc-nat", "Enable AWS VPC NAT instance ipforwarding and iptables"
 recipe "aws::vpc-nat-ha", "Configures NAT Monitor for NAT instance HA."
 recipe "aws::start-nat-monitor", "Start NAT monitor"
 recipe "aws::stop-nat-monitor", "Stop NAT monitor"
+recipe "aws::recipes/do_install_awscli", "installs aws cli"
 
 attribute "aws/ses/username", 
   :display_name => "SES Username",
