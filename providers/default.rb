@@ -7,6 +7,7 @@ action :create_cred_file do
   end
 
   template "/root/.aws/config" do
+    cookbook "aws"
     source "aws_config.erb"
     owner "root"
     group "root"
