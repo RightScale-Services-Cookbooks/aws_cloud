@@ -10,7 +10,7 @@ action :set do
   aws "create cred" do
     action :create_cred_file
   end
-  cmd="/usr/bin/aws ec2 create-tags --resources #{resources} --tags Key=#{key},Value=#{value}"
+  cmd="#{node[:aws][:cli]} ec2 create-tags --resources #{resources} --tags Key=#{key},Value=#{value}"
   result=Mixlib::ShellOut.new(cmd).run_command
   Chef::Log.info "cmd:#{cmd}, STDOUT:#{result.stdout}, STDERR:#{result.stderr}"
   result.error!
