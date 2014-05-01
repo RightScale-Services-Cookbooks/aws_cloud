@@ -1,4 +1,4 @@
-case platform
+case node[:platform]
 when "redhat","centos","scientific","fedora","suse","amazon"
   default[:aws][:cli]="/usr/bin/aws"
 when "debian","ubuntu"
@@ -6,3 +6,4 @@ when "debian","ubuntu"
 else
   raise "OS Not Supported"
 end
+Chef::Log.info "Platform: #{node[:platform]}, CLI: #{node[:aws][:cli]}"
