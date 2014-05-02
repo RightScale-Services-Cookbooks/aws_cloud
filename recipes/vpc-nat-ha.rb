@@ -9,8 +9,10 @@
 
 rightscale_marker :begin
 
+include_recipe "java"
+
 log "Test if JAVA_HOME is set properly."
-execute "#{node[:aws][:vpc_nat][:java_home]}/bin/java -version | grep 'java version' | wc -l" do
+execute "#{node[:java][:java_home]}/bin/java -version" do
   action :run
 end
 
@@ -38,7 +40,6 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
     mode   "0400"
     variables( :key=> node[:aws][:vpc_nat][:aws_account_id],
       :secret=>node[:aws][:vpc_nat][:aws_account_secret]
- 
     )
     action :create
   end

@@ -8,6 +8,8 @@
 #
 
 rightscale_marker :begin
+providers=["ec2","vagrant"]
+raise "This recipe is not supported by the cloud provider #{node[:cloud][:provider]}"  unless providers.include?(node[:cloud][:provider])
 
 if (node[:aws][:vpc_nat][:vpc_ipv4_cidr_block])
   template "/etc/iptables.snat" do

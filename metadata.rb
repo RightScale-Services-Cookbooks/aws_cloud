@@ -9,6 +9,7 @@ version          '0.1.7'
 depends "rightscale"
 depends "python"
 depends "sysctl"
+depends "java"
 
 recipe "aws::do_install_ses", "Configures postfix to use AWS SES " 
 recipe "aws::vpc-nat", "Enable AWS VPC NAT instance ipforwarding and iptables"
@@ -67,19 +68,19 @@ attribute "aws/ses/virtual_alias_domains",
 attribute "aws/vpc_nat/other_instance_id",
   :display_name => "Instance ID of other NAT HA Instance",
   :description => "The instance ID of the instance to monitor.",
-  :required => "required",
+  :required => "optional",
   :recipes => [ "aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/other_route_id",
   :display_name => "VPC Route Table Id of the other HA server",
   :description => "The VPC Route Table Id where the other instance is associated. Example: rtb-ea765f83",
-  :required => "required",
+  :required => "optional",
   :recipes => [ "aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/route_id",
   :display_name => "VPC Route Table Id of this server",
   :description => "The VPC Route Table Id where this server is associated.  Example: rtb-7a019112",
-  :required => "required",
+  :required => "optional",
   :recipes => [ "aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/aws_account_id",
@@ -97,14 +98,9 @@ attribute "aws/vpc_nat/aws_account_secret",
 attribute "aws/vpc_nat/nat_ha",
   :display_name => "VPC NAT High Availablity",
   :description => "With two NAT servers enable NAT HA.  Set to enabled if you are 
-using two NAT servers in one VPC.  Default is disabled.",
+using two NAT servers in one VPC. When set to enabled, also set optional inputs route_id, 
+other_route_id, and other_instance_id. Default is disabled. ",
   :choice=>["enabled",'disabled'],
   :required => "required",
   :recipes => [ "aws::vpc-nat-ha",
   "aws::start-nat-monitor" ]
-
-attribute "aws/vpc_nat/java_home",
-  :display_name => "Override the JAVA_HOME path",
-  :description => "JAVA is used for ec2 cli commands.  Use this input to override the default JAVA_HOME path",
-  :required => "optional",
-  :recipes => [ "aws::vpc-nat-ha"]
