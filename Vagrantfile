@@ -80,7 +80,9 @@ Vagrant.configure("2") do |config|
       },
       aws: { vpc_nat:{
             nat_ha: 'enabled',
-            java_home: '/etc/alternatives/jre'
+            java_home: '/etc/alternatives/jre',
+            aws_account_secret: 'foo',   
+            aws_account_id: 'bar', 
             },
            ses: {
                 domain:'example.com',
@@ -93,7 +95,6 @@ Vagrant.configure("2") do |config|
       }
     
     chef.run_list = [
-       "recipe[aws::do_install_ses]",
       "recipe[aws::vpc-nat]",
       "recipe[aws::vpc-nat-ha]"
     ]

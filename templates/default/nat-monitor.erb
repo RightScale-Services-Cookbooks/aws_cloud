@@ -7,10 +7,15 @@ export JAVA_HOME=<%=@java_home%>
 # NAT instance variables
 # Other instance's IP to ping and route to grab if other node goes down
 NAT_ID=<%= @other_instance_id   %>
-NAT_RT_ID=<%= @other_route_id   %>
+# Get subnet to get rtb id.
+NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances ${NAT_ID}  \ 
+| grep INSTANCE | awk '{print $16;}'`
+NAT_RT_ID=`/home/ec2/bin/ec2-describe-route-tables -F association.subnet-id=${NAT_INSTANCE_SUBNET}`
 
 # My route to grab when I come back up
-My_RT_ID=<%= @route_id   %>
+MY_NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances <%=@my_instance_id %>  \ 
+| grep INSTANCE | awk '{print $16;}'`
+My_RT_ID=`/home/ec2/bin/ec2-describe-route-tables -F association.subnet-id=${MY_NAT_INSTANCE_SUBNET}`
 
 # Specify the EC2 region that this will be running in (e.g. https://ec2.us-east-1.amazonaws.com)
 EC2_URL=<%=@ec2_url%>
@@ -26,13 +31,13 @@ Wait_for_Instance_Start=300
 . /etc/profile.d/ec2.sh
 
 # setup aws creds
-. /root/credentials.txt
+. /root/.awscreds
 
 
 # Get this instance's ID
-Instance_ID=`/usr/bin/curl --silent http://169.254.169.254/latest/meta-data/instance-id`
+Instance_ID=<%= @my_instance_id %>
 # Get the other NAT instance's IP
-NAT_IP=`/home/ec2/bin/ec2-describe-instances $NAT_ID -U $EC2_URL | grep PRIVATEIPADDRESS -m 1 | awk '{print $2;}'`
+NAT_IP=<%= @other_instance_ip %>
 
 echo `date` "-- Starting NAT monitor"
 echo `date` "-- Adding this instance to $My_RT_ID default route on start"

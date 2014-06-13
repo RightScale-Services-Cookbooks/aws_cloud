@@ -65,34 +65,18 @@ attribute "aws/ses/virtual_alias_domains",
   :required => "required",
   :recipes => [ "aws::do_install_ses" ]
 
-attribute "aws/vpc_nat/other_instance_id",
-  :display_name => "Instance ID of other NAT HA Instance",
-  :description => "The instance ID of the instance to monitor.",
-  :required => "optional",
-  :recipes => [ "aws::vpc-nat-ha" ]
 
-attribute "aws/vpc_nat/other_route_id",
-  :display_name => "VPC Route Table Id of the other HA server",
-  :description => "The VPC Route Table Id where the other instance is associated. Example: rtb-ea765f83",
-  :required => "optional",
-  :recipes => [ "aws::vpc-nat-ha" ]
-
-attribute "aws/vpc_nat/route_id",
-  :display_name => "VPC Route Table Id of this server",
-  :description => "The VPC Route Table Id where this server is associated.  Example: rtb-7a019112",
-  :required => "optional",
-  :recipes => [ "aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/aws_account_id",
   :display_name => "AWS Account Id ",
-  :description => "Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID)",
-  :required => "required",
+  :description => "Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID).  Required for NAT HA",
+  :required => "optional",
   :recipes => [ "aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/aws_account_secret",
   :display_name => "AWS Account Secret Key",
-  :description => "Use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY)",
-  :required => "required",
+  :description => "Use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY). Required for NAT HA",
+  :required => "optional",
   :recipes => [ "aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/nat_ha",
@@ -102,5 +86,4 @@ using two NAT servers in one VPC. When set to enabled, also set optional inputs 
 other_route_id, and other_instance_id. Default is disabled. ",
   :choice=>["enabled",'disabled'],
   :required => "required",
-  :recipes => [ "aws::vpc-nat-ha",
-  "aws::start-nat-monitor" ]
+  :recipes => ["aws::vpc-nat", "aws::vpc-nat-ha","aws::start-nat-monitor" ]

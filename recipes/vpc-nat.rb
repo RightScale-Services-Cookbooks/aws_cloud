@@ -46,4 +46,8 @@ bash "iptables-restore" do
   EOH
 end
 
+right_link_tag "nat:ha=#{node[:aws][:vpc_nat][:nat_ha]}"
+right_link_tag "nat:server_ip=#{node[:cloud][:private_ips][0]}"
+right_link_tag "nat:server_id=#{node[:ec2][:instance_id]}"
+
 rightscale_marker :end

@@ -31,19 +31,19 @@
       "locked_version": "1.4.6"
     },
     "build-essential": {
-      "locked_version": "2.0.0"
+      "locked_version": "2.0.2"
     },
     "yum-epel": {
-      "locked_version": "0.3.4"
+      "locked_version": "0.3.6"
     },
     "yum": {
-      "locked_version": "3.1.6"
+      "locked_version": "3.2.0"
     },
     "java": {
       "locked_version": "1.22.0"
     },
     "apt": {
-      "locked_version": "2.3.8"
+      "locked_version": "2.4.0"
     }
   }
 }
