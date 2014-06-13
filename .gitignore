@@ -11,3 +11,4 @@ bin/*
 Gemfile.lock
 bin/*
 .bundle/*
+Berksfile.lock
