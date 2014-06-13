@@ -1,0 +1,13 @@
+.vagrant
+/cookbooks
+
+# Bundler
+bin/*
+.bundle/*
+
+.kitchen/
+.kitchen.local.yml
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
