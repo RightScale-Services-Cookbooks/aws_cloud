@@ -11,7 +11,7 @@ rightscale_marker :begin
 
 if node[:aws][:vpc_nat][:nat_ha]=='enabled'
 
-  include_recipe "java"
+  #include_recipe "java"
 
   log "Test if JAVA_HOME is set properly."
   execute "#{node[:java][:java_home]}/bin/java -version" do
