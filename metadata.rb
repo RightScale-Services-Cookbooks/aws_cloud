@@ -7,9 +7,9 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.7'
 
 depends "rightscale"
-depends "python"
+#depends "python"
 depends "sysctl"
-depends "java"
+#depends "java"
 
 recipe "aws::do_install_ses", "Configures postfix to use AWS SES " 
 recipe "aws::vpc-nat", "Enable AWS VPC NAT instance ipforwarding and iptables"
