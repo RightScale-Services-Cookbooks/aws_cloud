@@ -72,9 +72,12 @@ Vagrant.configure("2") do |config|
   #config.vm.provision "shell",
   #  inline: "yum -y install java-1.7*"
 
+  
+  config.rightscaleshim.run_list_dir = "runlists/centos"
+  config.rightscaleshim.shim_dir = "rightscaleshim/centos"
+
   config.vm.provision :chef_solo do |chef|
     chef.json = {
-      cloud: {provider: 'vagrant'},
       :vagrant => {
         :box_name => 'nat-host'
       },
@@ -95,6 +98,7 @@ Vagrant.configure("2") do |config|
       }
     
     chef.run_list = [
+      "recipe[rightscaleshim]",
       "recipe[aws::vpc-nat]",
       "recipe[aws::vpc-nat-ha]"
     ]
