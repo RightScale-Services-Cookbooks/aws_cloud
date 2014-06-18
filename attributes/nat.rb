@@ -10,4 +10,5 @@ when "vagrant"
   set[:aws][:vpc_nat][:vpc_ipv4_cidr_block] ="10.0.0.0/16"
   set[:aws][:vpc_nat][:ec2_url]= "https://ec2.us-west.amazonaws.com"
 end
+default[:aws][:vpc_nat][:java_home]="/etc/alternatives/jre"
 
