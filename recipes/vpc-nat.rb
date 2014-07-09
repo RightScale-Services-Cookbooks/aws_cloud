@@ -46,8 +46,4 @@ bash "iptables-restore" do
   EOH
 end
 
-if node[:cloud][:provider]!="vagrant"
-right_link_tag "nat:ha=#{node[:aws][:vpc_nat][:nat_ha]}"
-right_link_tag "nat:server_id=#{node[:ec2][:instance_id]}"
-end
 rightscale_marker :end

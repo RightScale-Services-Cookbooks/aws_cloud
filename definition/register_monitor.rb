@@ -1,5 +1,5 @@
 
-define :register_slave, :action=> :create do
+define :register_monitor, :action=> :create do
   # Obtain information about nat ha servers by querying for its tags
 
   rightscale_server_collection "nat_ha" do
