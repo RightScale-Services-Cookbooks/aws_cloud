@@ -22,19 +22,24 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
   log "NAT HA enabled.  Proceding to install nat-monitor"  
   
   # Obtain information about nat ha servers by querying for its tags
-  r = rightscale_server_collection "nat_ha" do
-    timeout 3600 #1hr
-    tags "nat:ha=enabled"
-    mandatory_tags "nat:ha=enabled"
-    empty_ok false
-    action :nothing
+  servers = ruby_block "find ha servers" do
+    block do
+      r = rightscale_server_collection "nat_ha" do
+        timeout 3600 #1hr
+        tags "nat:ha=enabled"
+        mandatory_tags "nat:ha=enabled"
+        empty_ok false
+        action :nothing
+      end
+      r.run_action(:load)
+    end
   end
-  r.run_action(:load)
-
+  servers.run_action(:create)
+  
   nat_server_id = ""
   nat_server_ip = ""
 
-  r = ruby_block "find ha servers" do
+  f = ruby_block "find tags from servers" do
     block do
       node[:server_collection]["nat_ha"].each do |id, tags|
         server_ip_tag = tags.detect { |u| u =~ /server:private_ip_0/ }
@@ -48,7 +53,7 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
     end
   end
 
-  r.run_action(:create)
+  f.run_action(:create)
   
   
   template "/root/nat-monitor.sh" do
@@ -88,9 +93,9 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
     action :start_nat_monitor
   end
  
-#  aws_nat "attach nat host" do
-#    action :attach
-#  end
+  #  aws_nat "attach nat host" do
+  #    action :attach
+  #  end
   
 else
   log "VPC HA is not enabled."
