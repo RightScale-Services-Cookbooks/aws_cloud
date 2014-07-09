@@ -2,14 +2,14 @@
 define :register_slave, :action=> :create do
   # Obtain information about nat ha servers by querying for its tags
 
-      r = rightscale_server_collection "nat_ha" do
-        timeout 3600 #1hr
-        tags "nat:ha=enabled"
-        mandatory_tags "nat:ha=enabled"
-        empty_ok false
-        action :nothing
-      end
-      r.run_action(:load)
+  rightscale_server_collection "nat_ha" do
+    timeout 3600 #1hr
+    tags "nat:ha=enabled"
+    mandatory_tags "nat:ha=enabled"
+    empty_ok false
+    action :load
+  end
+
   
   nat_server_id = ""
   nat_server_ip = ""
