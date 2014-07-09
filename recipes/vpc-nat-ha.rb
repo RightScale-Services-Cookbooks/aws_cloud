@@ -26,6 +26,7 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
     timeout 3600 #1hr
     tags "nat:ha=enabled"
     mandatory_tags "nat:ha=enabled"
+    empty_ok false
     action :nothing
   end
   r.run_action(:load)
