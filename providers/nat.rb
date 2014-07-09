@@ -19,3 +19,14 @@ action :stop_nat_monitor do
     EOH
   end
 end
+
+action :attach do
+  remote_recipe "Attach me to nat host" do
+    recipe "aws::vpc-nat-ha"
+#    attributes :remote_recipe => {
+#      :backend_ip => new_resource.backend_ip,
+#      :backend_id => new_resource.backend_id,
+#    }
+    recipients_tags "nat:ha=enabled"
+  end
+end

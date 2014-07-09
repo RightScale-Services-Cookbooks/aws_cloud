@@ -23,6 +23,7 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
   
   # Obtain information about nat ha servers by querying for its tags
   r = rightscale_server_collection "nat_ha" do
+    timeout 3600 #1hr
     tags "nat:ha=enabled"
     mandatory_tags "nat:ha=enabled"
     action :nothing
@@ -35,7 +36,7 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
   r = ruby_block "find ha servers" do
     block do
       node[:server_collection]["nat_ha"].each do |id, tags|
-        server_ip_tag = tags.detect { |u| u =~ /nat:server_ip/ }
+        server_ip_tag = tags.detect { |u| u =~ /server:private_ip_0/ }
         nat_server_ip = server_ip_tag.split(/=/, 2).last.chomp
         server_id_tag = tags.detect { |u| u =~ /nat:server_id/ }
         nat_server_id = server_id_tag.split(/=/, 2).last.chomp
@@ -86,6 +87,10 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
     action :start_nat_monitor
   end
  
+#  aws_nat "attach nat host" do
+#    action :attach
+#  end
+  
 else
   log "VPC HA is not enabled."
 end

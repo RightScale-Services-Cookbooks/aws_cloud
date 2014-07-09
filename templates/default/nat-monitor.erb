@@ -3,18 +3,21 @@
 # if communication with the other instance fails
 #set JAVA_HOME for ec2 commands
 export JAVA_HOME=<%=@java_home%>
+# setup the ec2 env.
+. /etc/profile.d/ec2.sh
+
+# setup aws creds
+. /root/.awscreds
 
 # NAT instance variables
 # Other instance's IP to ping and route to grab if other node goes down
 NAT_ID=<%= @other_instance_id   %>
 # Get subnet to get rtb id.
-NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances ${NAT_ID}  \ 
-| grep INSTANCE | awk '{print $16;}'`
+NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances ${NAT_ID} | grep INSTANCE | awk '{print $16;}'`
 NAT_RT_ID=`/home/ec2/bin/ec2-describe-route-tables -F association.subnet-id=${NAT_INSTANCE_SUBNET}`
 
 # My route to grab when I come back up
-MY_NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances <%=@my_instance_id %>  \ 
-| grep INSTANCE | awk '{print $16;}'`
+MY_NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances <%=@my_instance_id %> o| grep INSTANCE | awk '{print $16;}'`
 My_RT_ID=`/home/ec2/bin/ec2-describe-route-tables -F association.subnet-id=${MY_NAT_INSTANCE_SUBNET}`
 
 # Specify the EC2 region that this will be running in (e.g. https://ec2.us-east-1.amazonaws.com)
@@ -26,13 +29,6 @@ Ping_Timeout=1
 Wait_Between_Pings=2
 Wait_for_Instance_Stop=60
 Wait_for_Instance_Start=300
-
-# setup the ec2 env.
-. /etc/profile.d/ec2.sh
-
-# setup aws creds
-. /root/.awscreds
-
 
 # Get this instance's ID
 Instance_ID=<%= @my_instance_id %>
