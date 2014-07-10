@@ -11,10 +11,6 @@ rightscale_marker :begin
 
 if node[:aws][:vpc_nat][:nat_ha]=='enabled'
   
-  if node[:cloud][:provider]!="vagrant"
-    right_link_tag "nat:ha=#{node[:aws][:vpc_nat][:nat_ha]}"
-    right_link_tag "nat:server_id=#{node[:ec2][:instance_id]}"
-  end
   
   log "Test if JAVA_HOME is set properly."
   execute "#{node[:aws][:vpc_nat][:java_home]}/bin/java -version" do
