@@ -12,8 +12,10 @@ depends "sysctl"
 #depends "java"
 
 recipe "aws::do_install_ses", "Configures postfix to use AWS SES " 
+recipe "aws::vpc-nat", "Enable AWS VPC NAT server ipforwarding and iptables"
+recipe "aws::vpc-nat-ha", "Configures NAT Monitor for NAT server HA."
 recipe "aws::vpc-nat", "Enable AWS VPC NAT instance ipforwarding and iptables"
-recipe "aws::vpc-nat-ha", "Configures NAT Monitor for NAT instance HA."
+recipe "aws::vpc-nat-remote-register", "Configures remote NAT server"
 recipe "aws::start-nat-monitor", "Start NAT monitor"
 recipe "aws::stop-nat-monitor", "Stop NAT monitor"
 recipe "aws::do_install_awscli", "installs aws cli"
@@ -80,10 +82,18 @@ attribute "aws/vpc_nat/aws_account_secret",
   :recipes => [ "aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/nat_ha",
-  :display_name => "VPC NAT High Availablity",
+  :display_name => "Enable VPC NAT High Availablity",
   :description => "With two NAT servers enable NAT HA.  Set to enabled if you are 
 using two NAT servers in one VPC. When set to enabled, also set optional inputs route_id, 
 other_route_id, and other_instance_id. Default is disabled. ",
   :choice=>["enabled",'disabled'],
   :required => "required",
   :recipes => ["aws::vpc-nat", "aws::vpc-nat-ha","aws::start-nat-monitor" ]
+
+attribute "aws/vpc_nat/primary",
+  :display_name => "Set VPC NAT HA server as primary",
+  :description => "Used to determine if the nat host should register with the other nat host.
+set one as primary.  ",
+  :choice=>["true",'false'],
+  :required => "required",
+  :recipes => ["aws::vpc-nat-ha" ]
