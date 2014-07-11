@@ -94,6 +94,8 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
   # to monitor.  dont execute if it's primary, as the secondary
   # should have already run.
   aws_nat "attach to remote nat" do 
+    server_id node[:ec2][:instance_id]
+    server_ip node[:cloud][:private_ips][0]
     action :attach
     not_if node[:aws][:vpc_nat][:primary]=='true'
   end
