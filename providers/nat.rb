@@ -33,6 +33,3 @@ action :remote_attach do
   end
 end
 
-action :attach do
-  include_recipe 'aws::vpc-nat-ha'
-end

@@ -73,7 +73,7 @@ attribute "aws/vpc_nat/aws_account_id",
   :display_name => "AWS Account Id ",
   :description => "Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID).  Required for NAT HA",
   :required => "optional",
-  :recipes => [ "aws::vpc-nat-ha" ]
+  :recipes => [ "aws::vpc-nat-ha","aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/aws_account_secret",
   :display_name => "AWS Account Secret Key",
@@ -96,4 +96,4 @@ attribute "aws/vpc_nat/primary",
 set one as primary.  ",
   :choice=>["true",'false'],
   :required => "required",
-  :recipes => ["aws::vpc-nat-ha" ]
+  :recipes => ["aws::vpc-nat","aws::vpc-nat-ha","aws::vpc-nat-remote-register" ]
