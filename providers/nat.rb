@@ -22,6 +22,7 @@ end
 
 # run remote recipe on opposite nat server 
 # send sever_ip and server_id of local server.
+action :attach do
 remote_recipe "Attach me to nat host" do
   recipe "aws::vpc-nat-ha"
   attributes :remote_recipe => {
@@ -29,4 +30,5 @@ remote_recipe "Attach me to nat host" do
     :server_ip => new_resource.server_ip
   }
   recipients_tags "nat:ha=active"
+end
 end
