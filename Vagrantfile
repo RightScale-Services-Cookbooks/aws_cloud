@@ -98,9 +98,7 @@ Vagrant.configure("2") do |config|
       }
     
     chef.run_list = [
-      "recipe[rightscaleshim]",
-      "recipe[aws::vpc-nat]",
-      "recipe[aws::vpc-nat-ha]"
+      "recipe[aws::vpc-nat]",    
     ]
   end
 end
