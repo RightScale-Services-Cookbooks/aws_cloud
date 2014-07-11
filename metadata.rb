@@ -73,13 +73,13 @@ attribute "aws/vpc_nat/aws_account_id",
   :display_name => "AWS Account Id ",
   :description => "Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID).  Required for NAT HA",
   :required => "optional",
-  :recipes => [ "aws::vpc-nat-ha","aws::vpc-nat-ha" ]
+  :recipes => [ "aws::vpc-nat","aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/aws_account_secret",
   :display_name => "AWS Account Secret Key",
   :description => "Use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY). Required for NAT HA",
   :required => "optional",
-  :recipes => [ "aws::vpc-nat-ha" ]
+  :recipes => [ "aws::vpc-nat","aws::vpc-nat-ha" ]
 
 attribute "aws/vpc_nat/nat_ha",
   :display_name => "Enable VPC NAT High Availablity",
