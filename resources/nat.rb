@@ -1,1 +1,1 @@
-actions :start_nat_monitor, :stop_nat_monitor, :attach, :remote_attach
+actions :start_nat_monitor, :stop_nat_monitor, :setup_nat_monitor
