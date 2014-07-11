@@ -81,8 +81,10 @@ Vagrant.configure("2") do |config|
       :vagrant => {
         :box_name => 'nat-host'
       },
+      ec2: {instance_id: 'i-12345abcde'},
       aws: { vpc_nat:{
             nat_ha: 'enabled',
+            primary: 'true',
             java_home: '/etc/alternatives/jre',
             aws_account_secret: 'foo',   
             aws_account_id: 'bar', 
@@ -98,7 +100,8 @@ Vagrant.configure("2") do |config|
       }
     
     chef.run_list = [
-      "recipe[aws::vpc-nat]",    
+      "recipe[aws::vpc-nat]", 
+      "recipe[aws::vpc-nat-remote-recipe]",    
     ]
   end
 end
