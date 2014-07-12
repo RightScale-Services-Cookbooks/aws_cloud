@@ -97,4 +97,4 @@ attribute "aws/vpc_nat/primary",
 set one as primary.  ",
   :choice=>["true",'false'],
   :required => "required",
-  :recipes => ["aws::vpc-nat","aws::vpc-nat-ha","aws::vpc-nat-remote-register" ]
+  :recipes => ["aws::vpc-nat","aws::vpc-nat-attach" ]
