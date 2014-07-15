@@ -17,8 +17,8 @@ NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances ${NAT_ID} | grep INSTA
 NAT_RT_ID=`/home/ec2/bin/ec2-describe-route-tables -F association.subnet-id=${NAT_INSTANCE_SUBNET}`
 
 # My route to grab when I come back up
-MY_NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances <%=@my_instance_id %> o| grep INSTANCE | awk '{print $16;}'`
-My_RT_ID=`/home/ec2/bin/ec2-describe-route-tables -F association.subnet-id=${MY_NAT_INSTANCE_SUBNET}`
+MY_NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances <%=@my_instance_id %>| grep INSTANCE | awk '{print $16;}'`
+My_RT_ID=`/home/ec2/bin/ec2-describe-route-tables -F association.subnet-id=${MY_NAT_INSTANCE_SUBNET} | awk '{print $2;}'`
 
 # Specify the EC2 region that this will be running in (e.g. https://ec2.us-east-1.amazonaws.com)
 EC2_URL=<%=@ec2_url%>
