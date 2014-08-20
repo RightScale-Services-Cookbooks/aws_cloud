@@ -7,21 +7,21 @@
 # All rights reserved - Do Not Redistribute
 #
 
-rightscale_marker :begin
-providers=["ec2","vagrant"]
-raise "This recipe is not supported by the cloud provider #{node[:cloud][:provider]}"  unless providers.include?(node[:cloud][:provider])
+marker "recipe_start_rightscale" do
+  template "rightscale_audit_entry.erb"
+end
 
-if (node[:aws][:vpc_nat][:vpc_ipv4_cidr_block])
+if (node[:vpc_nat][:vpc_ipv4_cidr_block])
   template "/etc/iptables.snat" do
     source "iptables.snat.erb"
     owner  "root"
     group  "root"
     mode   "0644"
-    variables( :cidr => node[:aws][:vpc_nat][:vpc_ipv4_cidr_block] )
+    variables( :cidr => node[:vpc_nat][:vpc_ipv4_cidr_block] )
     action :create
   end
 else
-  raise "*** node[:aws][:vpc_nat][:vpc_ipv4_cidr_block], defined in attributes/default.rb is empty"
+  raise "*** node[:vpc_nat][:vpc_ipv4_cidr_block], defined in attributes/default.rb is empty"
 end
 
 sysctl "net.ipv4.ip_forward" do
@@ -45,10 +45,3 @@ bash "iptables-restore" do
     fi
   EOH
 end
-
-if node[:cloud][:provider]=="ec2" and node[:aws][:vpc_nat][:primary]=='true'
-  right_link_tag "nat:ha=active"
-  right_link_tag "nat:server_id=#{node[:ec2][:instance_id]}"
-  right_link_tag "nat:server_ip=#{node[:cloud][:private_ips][0]}"
-end
-rightscale_marker :end

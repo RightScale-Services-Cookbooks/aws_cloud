@@ -3,22 +3,14 @@
 # if communication with the other instance fails
 #set JAVA_HOME for ec2 commands
 export JAVA_HOME=<%=@java_home%>
-# setup the ec2 env.
-. /etc/profile.d/ec2.sh
-
-# setup aws creds
-. /root/.awscreds
 
 # NAT instance variables
 # Other instance's IP to ping and route to grab if other node goes down
 NAT_ID=<%= @other_instance_id   %>
-# Get subnet to get rtb id.
-NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances ${NAT_ID} | grep INSTANCE | awk '{print $16;}'`
-NAT_RT_ID=`/home/ec2/bin/ec2-describe-route-tables -F association.subnet-id=${NAT_INSTANCE_SUBNET}`
+NAT_RT_ID=<%= @other_route_id   %>
 
 # My route to grab when I come back up
-MY_NAT_INSTANCE_SUBNET=`/home/ec2/bin/ec2-describe-instances <%=@my_instance_id %>| grep INSTANCE | awk '{print $16;}'`
-My_RT_ID=`/home/ec2/bin/ec2-describe-route-tables -F association.subnet-id=${MY_NAT_INSTANCE_SUBNET} | awk '{print $2;}'`
+My_RT_ID=<%= @route_id   %>
 
 # Specify the EC2 region that this will be running in (e.g. https://ec2.us-east-1.amazonaws.com)
 EC2_URL=<%=@ec2_url%>
@@ -30,10 +22,17 @@ Wait_Between_Pings=2
 Wait_for_Instance_Stop=60
 Wait_for_Instance_Start=300
 
+# setup the ec2 env.
+. /etc/profile.d/ec2.sh
+
+# setup aws creds
+. /root/credentials.txt
+
+
 # Get this instance's ID
-Instance_ID=<%= @my_instance_id %>
+Instance_ID=`/usr/bin/curl --silent http://169.254.169.254/latest/meta-data/instance-id`
 # Get the other NAT instance's IP
-NAT_IP=<%= @other_instance_ip %>
+NAT_IP=`/home/ec2/bin/ec2-describe-instances $NAT_ID -U $EC2_URL | grep PRIVATEIPADDRESS -m 1 | awk '{print $2;}'`
 
 echo `date` "-- Starting NAT monitor"
 echo `date` "-- Adding this instance to $My_RT_ID default route on start"
@@ -60,7 +59,7 @@ while [ . ]; do
         ROUTE_HEALTHY=1
       fi
       # Check NAT state to see if we should stop it or start it again
-      NAT_STATE=`/home/ec2/bin/ec2-describe-instances $NAT_ID -U $EC2_URL | grep INSTANCE | awk '{print $5;}'`
+      NAT_STATE=`/home/ec2/bin/ec2-describe-instances --show-empty-fields $NAT_ID -U $EC2_URL | grep INSTANCE | awk '{print $6;}'`
       if [ "$NAT_STATE" == "stopped" ]; then
         echo `date` "-- Other NAT instance stopped, starting it back up"
         /home/ec2/bin/ec2-start-instances $NAT_ID -U $EC2_URL

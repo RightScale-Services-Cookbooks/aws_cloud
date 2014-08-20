@@ -7,19 +7,17 @@
 # All rights reserved - Do Not Redistribute
 #
 
-rightscale_marker :begin
-# run this recipe from the secondary nat server and run a remote recipe after the secondary has been setup.
+marker "recipe_start_rightscale" do
+  template "rightscale_audit_entry.erb"
+end
+#raise "JAVA doesn't seem to be installed!  JAVA_HOME is not set." if node[:vpc_nat][:java_home].blank?
 
+log "Test if JAVA_HOME is set properly."
+execute "#{node[:vpc_nat][:java_home]}/bin/java -version | grep 'java version' | wc -l" do
+  action :run
+end
 
-if node[:aws][:vpc_nat][:nat_ha]=='enabled'
-  
-  log "Test if JAVA_HOME is set properly."
-  execute "#{node[:aws][:vpc_nat][:java_home]}/bin/java -version" do
-    action :run
-  end
-
-  raise "AWS Creds are not setup.  Set aws/vpc_nat/aws_account_id and "+ 
-    "aws/vpc_nat/aws_account_secret" unless node[:aws][:vpc_nat][:aws_account_id]
+if node[:vpc_nat][:nat_ha]=='enabled'
   
   log "NAT HA enabled.  Proceding to install nat-monitor"  
   
@@ -28,23 +26,22 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
     owner  "root"
     group  "root"
     mode   "0700"
-    variables( :other_instance_id=> node[:vpc_nat][:server_id],
-      :my_instance_id=> node[:ec2][:instance_id],
-      :other_instance_ip=>  node[:vpc_nat][:server_ip],
-      :ec2_url => node[:aws][:vpc_nat][:ec2_url],
-      :java_home => node[:aws][:vpc_nat][:java_home]
+    variables( :other_instance_id=> node[:vpc_nat][:other_instance_id],
+      :other_route_id=>node[:vpc_nat][:other_route_id],
+      :route_id=>node[:vpc_nat][:route_id],
+      :ec2_url => node[:vpc_nat][:ec2_url],
+      :java_home => node[:vpc_nat][:java_home]
     )
     action :create
   end
-  
-  
-  template "/root/.awscreds" do
+  template "/root/credentials.txt" do
     source "credentials.erb"
     owner  "root"
     group  "root"
     mode   "0400"
-    variables( :key=> node[:aws][:vpc_nat][:aws_account_id],
-      :secret=>node[:aws][:vpc_nat][:aws_account_secret]
+    variables( :key=> node[:vpc_nat][:aws_account_id],
+      :secret=>node[:vpc_nat][:aws_account_secret]
+ 
     )
     action :create
   end
@@ -61,9 +58,7 @@ if node[:aws][:vpc_nat][:nat_ha]=='enabled'
   aws_nat "start monitor" do
     action :start_nat_monitor
   end
-  
+ 
 else
   log "VPC HA is not enabled."
 end
-
-rightscale_marker :end
