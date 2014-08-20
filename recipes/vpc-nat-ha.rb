@@ -34,13 +34,16 @@ if node[:vpc_nat][:nat_ha]=='enabled'
     )
     action :create
   end
-  template "/root/credentials.txt" do
+  directory "/root/.aws" do
+    action :create
+  end
+  template "/root/.aws/.credentials" do
     source "credentials.erb"
     owner  "root"
     group  "root"
     mode   "0400"
-    variables( :key=> node[:vpc_nat][:aws_account_id],
-      :secret=>node[:vpc_nat][:aws_account_secret]
+    variables( :key=> node[:aws][:aws_account_id],
+      :secret=>node[:aws][:aws_account_secret]
  
     )
     action :create
