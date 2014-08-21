@@ -17,31 +17,24 @@ remote_file "/tmp/#{ec2_api_tools}.zip" do
   not_if { ::File.exists?("/tmp/#{ec2_api_tools}.zip")}
 end
 
-directory "/home/ec2" do
-  action :create
-end
-
 package "unzip"
 execute "unzip /tmp/#{ec2_api_tools}.zip" do
-  command "unzip /tmp/#{ec2_api_tools}.zip -d /home/ec2"
-   not_if { ::File.exists?("/home/ec2/#{ec2_api_tools}")}
+  command "unzip /tmp/#{ec2_api_tools}.zip -d /home/"
+   not_if { ::File.exists?("/home/#{ec2_api_tools}")}
 end
 
-
+link  "/home/ec2" do
+  to "/home/#{ec2_api_tools}"
+  link_type :symbolic
+end
 
 log "setup java for ec2 api tools"
-package "java"
+package "java-1.7.0-openjdk"
 execute "file $(which java)"
 
-
-bash "ec2 environment file" do
-  code <<-EOH
-  cat >> /etc/profile.d/ec2.sh << eof
-  export PATH=/home/ec2/#{ec2_api_tools}/bin:${PATH}
-  export EC2_HOME=/home/ec2/#{ec2_api_tools}
-  eof
-  file $(which java)
-  EOH
+template "/etc/profile.d/ec2.sh" do
+  source "ec2.sh.erb"
 end
+
 
 
