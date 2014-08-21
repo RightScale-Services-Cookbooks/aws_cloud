@@ -4,7 +4,7 @@ maintainer_email 'premium@rightscale.com'
 license          'Apache 2.0'
 description      'Installs/Configures AWS '
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.2.0'
+version          '0.2.1'
 
 depends "rightscale"
 depends "python"
@@ -17,6 +17,7 @@ recipe "aws::vpc-nat-ha", "Configures NAT Monitor for NAT server HA."
 recipe "aws::start-nat-monitor", "Start NAT monitor"
 recipe "aws::stop-nat-monitor", "Stop NAT monitor"
 recipe "aws::do_install_awscli", "installs aws cli"
+recipe "aws::install_ec2_api_tools", "install the ec2_api_tools"
 
 attribute "aws/aws_access_key_id",
   :display_name => "AWS_ACCESS_KEY_ID",

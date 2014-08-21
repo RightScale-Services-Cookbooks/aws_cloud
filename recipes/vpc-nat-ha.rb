@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: vpc-nat
-# Cookbook Name:: rightscale_services_tools
+# Cookbook Name:: aws
+# Recipe:: vpc-nat-ha
 #
 # Copyright 2013, Rightscale Inc.
 #
@@ -11,6 +11,8 @@ marker "recipe_start_rightscale" do
   template "rightscale_audit_entry.erb"
 end
 #raise "JAVA doesn't seem to be installed!  JAVA_HOME is not set." if node[:vpc_nat][:java_home].blank?
+
+include_recipe "aws::install_ec2_api_tools"
 
 log "Test if JAVA_HOME is set properly."
 execute "#{node[:vpc_nat][:java_home]}/bin/java -version | grep 'java version' | wc -l" do

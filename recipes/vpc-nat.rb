@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: rightscale_services_tools
-# Recipe:: default
+# Cookbook Name:: aws
+# Recipe:: vpc-nat
 #
 # Copyright 2013, Rightscale Inc.
 #

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: rightscale_services_tools
+# Cookbook Name:: aws
 # Recipe:: stop-nat-monitor
 #
 # Copyright 2013, Rightscale Inc.
