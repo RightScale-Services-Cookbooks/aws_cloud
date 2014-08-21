@@ -14,6 +14,7 @@ end
 ec2_api_tools="ec2-api-tools-1.7.1.0"
 remote_file "/tmp/#{ec2_api_tools}.zip" do
   source "http://s3.amazonaws.com/ec2-downloads/#{ec2_api_tools}.zip"
+  not_if { ::File.exists?("/tmp/#{ec2_api_tools}.zip")}
 end
 
 directory "/home/ec2" do
@@ -23,6 +24,7 @@ end
 package "unzip"
 execute "unzip /tmp/#{ec2_api_tools}.zip" do
   command "unzip /tmp/#{ec2_api_tools}.zip -d /home/ec2"
+   not_if { ::File.exists?("/home/ec2/#{ec2_api_tools}")}
 end
 
 
