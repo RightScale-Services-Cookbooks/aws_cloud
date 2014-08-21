@@ -44,8 +44,8 @@ if node[:vpc_nat][:nat_ha]=='enabled'
     owner  "root"
     group  "root"
     mode   "0400"
-    variables( :key=> node[:aws][:aws_account_id],
-      :secret=>node[:aws][:aws_account_secret]
+    variables( :key=> node[:aws][:aws_access_key_id],
+      :secret=>node[:aws][:aws_secret_access_key]
  
     )
     action :create

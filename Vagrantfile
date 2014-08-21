@@ -80,8 +80,8 @@ Vagrant.configure("2") do |config|
         :box_name => 'nat-host'
       },
       ec2: {instance_id: 'i-12345abcde'},
-      aws:{ aws_account_secret: 'foo',   
-            aws_account_id: 'bar', 
+      aws:{ aws_secret_access_key: 'foo',   
+            aws_access_key_id: 'bar', 
       },
       vpc_nat:{
             nat_ha: 'enabled',
