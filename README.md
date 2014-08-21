@@ -1,59 +1,22 @@
 aws Cookbook
 ============
-TODO: Enter the cookbook description here.
+This cookbook is to manage installation of AWS specific components for use with RightScale Cloud Management
 
-e.g.
-This cookbook makes your favorite breakfast sandwhich.
+
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
 
-e.g.
-#### packages
-- `toaster` - aws needs toaster to brown your bagel.
 
 Attributes
 ----------
-TODO: List you cookbook attributes here.
-
-e.g.
-#### aws::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['aws']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
 
 Usage
 -----
-#### aws::default
-TODO: Write usage instructions for each cookbook.
-
-e.g.
-Just include `aws` in your node's `run_list`:
-
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[aws]"
-  ]
-}
-```
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
+If this is a public cookbook, detail the process for contributing. 
 
 e.g.
 1. Fork the repository on Github
@@ -65,4 +28,4 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+
