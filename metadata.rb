@@ -35,7 +35,7 @@ attribute "aws/aws_secret_access_key",
 attribute "aws/region",
   :display_name => "AWS Region",
   :description => "AWS Region",
-  :required => "required",
+  :required => "required"
 
 attribute "aws/ses/username", 
   :display_name => "SES Username",
@@ -67,8 +67,6 @@ attribute "aws/ses/virtual_alias_domains",
   :type => "array",
   :required => "required",
   :recipes => [ "aws::do_install_ses" ]
-
-
 
 attribute "vpc_nat/other_instance_id",
   :display_name => "Instance ID of other NAT HA Instance",
