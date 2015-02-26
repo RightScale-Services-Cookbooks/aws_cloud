@@ -6,9 +6,7 @@ description      'Installs/Configures AWS '
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.2.2'
 
-depends "rightscale"
 depends "python"
-depends "sysctl"
 depends "marker"
 depends "fog"
 
