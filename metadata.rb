@@ -10,6 +10,7 @@ depends "python"
 depends "marker"
 depends "fog"
 
+recipe "aws::default", "installs aws tools"
 recipe "aws::do_install_ses", "Configures postfix to use AWS SES " 
 recipe "aws::vpc-nat", "Enable AWS VPC NAT server ipforwarding and iptables"
 recipe "aws::vpc-nat-ha", "Configures NAT Monitor for NAT server HA."
