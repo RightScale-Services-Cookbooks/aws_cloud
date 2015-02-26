@@ -18,6 +18,7 @@
 #
 
 include_recipe "python::pip"
+inludge_recipe "fog::default"
 
 python_pip "awscli" do
   version "1.3.8"
