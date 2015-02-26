@@ -8,6 +8,7 @@ action :connect do
       :aws_secret_access_key => node[:aws][:aws_secret_access_key],
       :aws_region  => node[:aws][:region] )
   elb.register_instances_with_load_balancer([node_id],elb_name)
+  new_resource.updated_by_last_action(true)
 end
 
 action :disconnect do
@@ -19,4 +20,5 @@ action :disconnect do
       :aws_secret_access_key => node[:aws][:aws_secret_access_key],
       :aws_region  => node[:aws][:region] )
   elb.deregister_instances_from_load_balancer([node_id],node_id)
+  new_resource.updated_by_last_action(true)
 end

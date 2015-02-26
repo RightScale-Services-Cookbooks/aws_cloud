@@ -12,14 +12,14 @@ marker "recipe_start_rightscale" do
 end
 
 ec2_api_tools="ec2-api-tools-1.7.1.0"
-remote_file "/tmp/#{ec2_api_tools}.zip" do
+remote_file "#{Chef::Config[:file_cache_path]}/#{ec2_api_tools}.zip" do
   source "http://s3.amazonaws.com/ec2-downloads/#{ec2_api_tools}.zip"
-  not_if { ::File.exists?("/tmp/#{ec2_api_tools}.zip")}
+  not_if { ::File.exists?("#{Chef::Config[:file_cache_path]}/#{ec2_api_tools}.zip")}
 end
 
 package "unzip"
-execute "unzip /tmp/#{ec2_api_tools}.zip" do
-  command "unzip /tmp/#{ec2_api_tools}.zip -d /home/"
+execute "unzip #{Chef::Config[:file_cache_path]}/#{ec2_api_tools}.zip" do
+  command "unzip #{Chef::Config[:file_cache_path]}/#{ec2_api_tools}.zip -d /home/"
    not_if { ::File.exists?("/home/#{ec2_api_tools}")}
 end
 
@@ -35,6 +35,3 @@ execute "file $(which java)"
 template "/etc/profile.d/ec2.sh" do
   source "ec2.sh.erb"
 end
-
-
-

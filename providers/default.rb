@@ -17,6 +17,7 @@ action :create_cred_file do
                :aws_region  => node[:aws][:region] )
     action :create
   end
+  new_resource.updated_by_last_action(true)
 end
 
 action :delete_cred_file do
@@ -28,4 +29,5 @@ action :delete_cred_file do
   directory "/root/.aws" do
     action :delete
   end
+  new_resource.updated_by_last_action(true)
 end

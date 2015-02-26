@@ -1,6 +1,7 @@
 require 'mixlib/shellout'
 action :get do
   Chef::Log.info "not implemented yet"
+  new_resource.updated_by_last_action(true)
 end
 
 action :set do
@@ -17,4 +18,5 @@ action :set do
   aws "cleanup creds" do
     action :delete_cred_file
   end
+  new_resource.updated_by_last_action(true)
 end
