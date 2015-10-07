@@ -1,2 +1,2 @@
-actions :create,:destroy
+actions :create, :destroy
 default_action :create

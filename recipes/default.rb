@@ -17,11 +17,10 @@
 # limitations under the License.
 #
 
-include_recipe "python::pip"
-include_recipe "fog::default"
+include_recipe 'python::pip'
+include_recipe 'fog::default'
 
-python_pip "awscli" do
-  version "1.3.8"
+python_pip 'awscli' do
+  version '1.3.8'
   action :install
 end
-
