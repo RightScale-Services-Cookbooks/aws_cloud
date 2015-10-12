@@ -1,74 +1,73 @@
 rightscale_marker :begin
 
-package "postfix" do 
+package 'postfix' do
   action :install
 end
 
-package "ssmtp" do
+package 'ssmtp' do
   action :remove
 end
 
-package "procmail" do
+package 'procmail' do
   action :install
 end
 
-package "perl" do
+package 'perl' do
   action :install
 end
 
-template "/etc/postfix/main.cf" do 
-  source "main.cf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  variables( :hostname => node[:hostname],
-             :domain => node[:aws][:ses][:domain],
-             :virtual_alias_domains => node[:aws][:ses][:virtual_alias_domains],
-             :server=> node[:aws][:ses][:server]
+template '/etc/postfix/main.cf' do
+  source 'main.cf.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+  variables(hostname: node[:hostname],
+            domain: node[:aws][:ses][:domain],
+            virtual_alias_domains: node[:aws][:ses][:virtual_alias_domains],
+            server: node[:aws][:ses][:server]
            )
   action :create
 end
 
-file "/etc/postfix/sasl_passwd" do
+file '/etc/postfix/sasl_passwd' do
   backup false
   action :nothing
 end
 
-execute "postmap hash:/etc/postfix/sasl_passwd" do
+execute 'postmap hash:/etc/postfix/sasl_passwd' do
   action :nothing
-  notifies :delete, "file[/etc/postfix/sasl_passwd]", :immediately
+  notifies :delete, 'file[/etc/postfix/sasl_passwd]', :immediately
 end
 
-template "/etc/postfix/sasl_passwd" do
-  owner "root"
-  group "root"
-  mode "0644"
-  variables( :username => node[:aws][:ses][:username],
-              :password => node[:aws][:ses][:password],
-             :server => node[:aws][:ses][:server])
+template '/etc/postfix/sasl_passwd' do
+  owner 'root'
+  group 'root'
+  mode '0644'
+  variables(username: node[:aws][:ses][:username],
+            password: node[:aws][:ses][:password],
+            server: node[:aws][:ses][:server])
   action :create
-  notifies :run, "execute[postmap hash:/etc/postfix/sasl_passwd]", :immediately
+  notifies :run, 'execute[postmap hash:/etc/postfix/sasl_passwd]', :immediately
 end
 
-execute "postmap hash:/etc/postfix/virtual" do
+execute 'postmap hash:/etc/postfix/virtual' do
   action :nothing
 end
 
-template "/etc/postfix/virtual" do
-  source "virtual.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  variables( :virtual_alias_domains => node[:aws][:ses][:virtual_alias_domains] )
+template '/etc/postfix/virtual' do
+  source 'virtual.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+  variables(virtual_alias_domains: node[:aws][:ses][:virtual_alias_domains])
   action :create
-  notifies :run, "execute[postmap hash:/etc/postfix/virtual]", :immediately
+  notifies :run, 'execute[postmap hash:/etc/postfix/virtual]', :immediately
 end
 
-service "postfix" do
+service 'postfix' do
   action :restart
 end
 
-execute "alternatives --auto mta"
+execute 'alternatives --auto mta'
 
 rightscale_marker :end
-
