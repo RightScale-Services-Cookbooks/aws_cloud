@@ -7,29 +7,26 @@
 # All rights reserved - Do Not Redistribute
 #
 
-marker 'recipe_start_rightscale' do
-  template 'rightscale_audit_entry.erb'
-end
+include_recipe 'java'
 
-ec2_api_tools = 'ec2-api-tools-1.7.1.0'
-remote_file "#{Chef::Config[:file_cache_path]}/#{ec2_api_tools}.zip" do
-  source "http://s3.amazonaws.com/ec2-downloads/#{ec2_api_tools}.zip"
-  not_if { ::File.exist?("#{Chef::Config[:file_cache_path]}/#{ec2_api_tools}.zip") }
+#http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
+remote_file "#{Chef::Config[:file_cache_path]}/ec2-api-tools.zip" do
+  source "http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip"
+  not_if { ::File.exist?("#{Chef::Config[:file_cache_path]}/ec2-api-tools.zip") }
 end
 
 package 'unzip'
-execute "unzip #{Chef::Config[:file_cache_path]}/#{ec2_api_tools}.zip" do
-  command "unzip #{Chef::Config[:file_cache_path]}/#{ec2_api_tools}.zip -d /home/"
-  not_if { ::File.exist?("/home/#{ec2_api_tools}") }
+execute "unzip #{Chef::Config[:file_cache_path]}/ec2-api-tools.zip" do
+  command "unzip #{Chef::Config[:file_cache_path]}/ec2-api-tools.zip -d /home/"
+  not_if { ::File.exist?("/home/ec2-api-tools.zip") }
 end
 
 link '/home/ec2' do
-  to "/home/#{ec2_api_tools}"
+  to "/home/ec2-api-tools.zip"
   link_type :symbolic
 end
 
 log 'setup java for ec2 api tools'
-package 'java-1.7.0-openjdk'
 execute 'file $(which java)'
 
 template '/etc/profile.d/ec2.sh' do

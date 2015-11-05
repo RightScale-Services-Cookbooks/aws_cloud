@@ -1,0 +1,41 @@
+---
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: '11.6'
+
+platforms:
+- name: centos-6.5
+  run_list: ['recipe[yum-epel]']
+  driver_config:
+    box: opscode-centos-6.5
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box
+    customize:
+      cpus: 2
+      memory: 1024
+- name: ubuntu-14.04
+  run_list: ['recipe[apt]']
+  driver_config:
+    box: opscode-ubuntu-14.04
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
+    customize:
+      cpus: 2
+      memory: 1024
+
+suites:
+- name: install_aws_cli
+  run_list:
+  - recipe[aws::do_install_awscli]
+- name: install_ec2_api_tools
+  run_list:
+  - recipe[aws::install_ec2_api_tools]
+- name: elb
+  run_list:
+  - recipe[fake::lb_connect]
+  attributes:
+    aws:
+        aws_access_key_id: abc
+        aws_secret_access_key: 123
+        lb:
+            node_id: 'abc123'
+            name: 'elb1'
+            
