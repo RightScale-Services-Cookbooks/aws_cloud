@@ -21,10 +21,10 @@ template '/etc/postfix/main.cf' do
   owner 'root'
   group 'root'
   mode '0644'
-  variables(hostname: node[:hostname],
-            domain: node[:aws][:ses][:domain],
-            virtual_alias_domains: node[:aws][:ses][:virtual_alias_domains],
-            server: node[:aws][:ses][:server]
+  variables(:hostname => node[:hostname],
+            :domain => node[:aws][:ses][:domain],
+            :virtual_alias_domains => node[:aws][:ses][:virtual_alias_domains],
+            :server => node[:aws][:ses][:server]
            )
   action :create
 end
@@ -43,9 +43,9 @@ template '/etc/postfix/sasl_passwd' do
   owner 'root'
   group 'root'
   mode '0644'
-  variables(username: node[:aws][:ses][:username],
-            password: node[:aws][:ses][:password],
-            server: node[:aws][:ses][:server])
+  variables(:username => node[:aws][:ses][:username],
+            :password => node[:aws][:ses][:password],
+            :server => node[:aws][:ses][:server])
   action :create
   notifies :run, 'execute[postmap hash:/etc/postfix/sasl_passwd]', :immediately
 end
@@ -59,7 +59,7 @@ template '/etc/postfix/virtual' do
   owner 'root'
   group 'root'
   mode '0644'
-  variables(virtual_alias_domains: node[:aws][:ses][:virtual_alias_domains])
+  variables(:virtual_alias_domains=> node[:aws][:ses][:virtual_alias_domains])
   action :create
   notifies :run, 'execute[postmap hash:/etc/postfix/virtual]', :immediately
 end
