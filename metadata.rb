@@ -22,95 +22,95 @@ recipe 'aws::lb_connect', 'connects to lb'
 recipe 'aws::lb_disconnect', 'disconnects from lb'
 
 attribute 'aws/aws_access_key_id',
-          display_name: 'AWS_ACCESS_KEY_ID',
-          description: 'Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID)',
-          required: 'required'
+          :display_name => 'AWS_ACCESS_KEY_ID',
+          :description => 'Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID)',
+          :required => 'required'
 
 attribute 'aws/aws_secret_access_key',
-          display_name: 'AWS_SECRET_ACCESS_KEY',
-          description: 'Use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY)',
-          required: 'required'
+          :display_name => 'AWS_SECRET_ACCESS_KEY',
+          :description => 'Use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY)',
+          :required => 'required'
 
 attribute 'aws/region',
-          display_name: 'AWS Region',
-          description: 'AWS Region',
-          required: 'required'
+          :display_name => 'AWS Region',
+          :description => 'AWS Region',
+          :required => 'required'
 
 attribute 'aws/ses/username',
-          display_name: 'SES Username',
-          description: 'SES Username',
-          required: 'required',
-          recipes: ['aws::do_install_ses']
+          :display_name => 'SES Username',
+          :description => 'SES Username',
+          :required => 'required',
+          :recipes => ['aws::do_install_ses']
 
 attribute 'aws/ses/password',
-          display_name: 'SES password',
-          description: 'SES password',
-          required: 'required',
-          recipes: ['aws::do_install_ses']
+          :display_name => 'SES password',
+          :description => 'SES password',
+          :required => 'required',
+          :recipes => ['aws::do_install_ses']
 
 attribute 'aws/ses/server',
-          display_name: 'SES Server',
-          description: 'SES Server',
-          required: 'required',
-          recipes: ['aws::do_install_ses']
+          :display_name => 'SES Server',
+          :description => 'SES Server',
+          :required => 'required',
+          :recipes => ['aws::do_install_ses']
 
 attribute 'aws/ses/domain',
-          display_name: 'SES domain',
-          description: 'SES domain',
-          required: 'required',
-          recipes: ['aws::do_install_ses']
+          :display_name => 'SES domain',
+          :description => 'SES domain',
+          :required => 'required',
+          :recipes => ['aws::do_install_ses']
 
 attribute 'aws/ses/virtual_alias_domains',
-          display_name: 'SES Virtual Alias Domain',
-          description: 'SES Virtual Alias Domain',
-          type: 'array',
-          required: 'required',
-          recipes: ['aws::do_install_ses']
+          :display_name => 'SES Virtual Alias Domain',
+          :description => 'SES Virtual Alias Domain',
+          :type => 'array',
+          :required => 'required',
+          :recipes => ['aws::do_install_ses']
 
 attribute 'vpc_nat/other_instance_id',
-          display_name: 'Instance ID of other NAT HA Instance',
-          description: 'The instance ID of the instance to monitor. Required when vpc_nat/ha is enabled',
-          required: 'optional',
-          recipes: ['aws::vpc-nat-ha']
+          :display_name => 'Instance ID of other NAT HA Instance',
+          :description => 'The instance ID of the instance to monitor. Required when vpc_nat/ha is enabled',
+          :required => 'optional',
+          :recipes => ['aws::vpc-nat-ha']
 
 attribute 'vpc_nat/other_route_id',
-          display_name: 'VPC Route Table Id of the other HA server',
-          description: "The VPC Route Table Id where the other instance is associated.
+          :display_name => 'VPC Route Table Id of the other HA server',
+          :description => "The VPC Route Table Id where the other instance is associated.
           Required when vpc_nat/ha is enabled. Example: rtb-ea765f83",
-          required: 'optional',
-          recipes: ['aws::vpc-nat-ha']
+          :required => 'optional',
+          :recipes => ['aws::vpc-nat-ha']
 
 attribute 'vpc_nat/route_id',
-          display_name: 'VPC Route Table Id of this server',
-          description: "The VPC Route Table Id where this server is associated.
+          :display_name => 'VPC Route Table Id of this server',
+          :description => "The VPC Route Table Id where this server is associated.
         Required when vpc_nat/ha is enabled. Example: rtb-7a019112",
-          required: 'optional',
-          recipes: ['aws::vpc-nat-ha']
+          :required => 'optional',
+          :recipes => ['aws::vpc-nat-ha']
 
 attribute 'vpc_nat/nat_ha',
-          display_name: 'VPC  NAT High Availablity',
-          description: "With two NAT servers enable NAT HA.  Set to enabled if you are
+          :display_name => 'VPC  NAT High Availablity',
+          :description => "With two NAT servers enable NAT HA.  Set to enabled if you are
         using two NAT servers in one VPC.  Default is disabled.",
-          choice: %w(enabled disabled),
-          default: 'disabled',
-          required: 'optional',
-          recipes: ['aws::vpc-nat-ha',
+          :choice => %w(enabled disabled),
+          :default => 'disabled',
+          :required => 'optional',
+          :recipes => ['aws::vpc-nat-ha',
                     'aws::start-nat-monitor']
 
 attribute 'vpc_nat/java_home',
-          display_name: 'Override the JAVA_HOME path',
-          description: 'JAVA is used for ec2 cli commands.  Use this input to override the default JAVA_HOME path',
-          required: 'optional',
-          recipes: ['aws::vpc-nat-ha']
+          :display_name => 'Override the JAVA_HOME path',
+          :description => 'JAVA is used for ec2 cli commands.  Use this input to override the default JAVA_HOME path',
+          :required => 'optional',
+          :recipes => ['aws::vpc-nat-ha']
 
 attribute 'aws/lb/node_id',
-          display_name: 'AWS Instance ID',
-          description: 'AWS Instance ID to Connect',
-          required: 'required',
-          recipes: ['aws::lb_connect', 'aws::lb_disconnect']
+          :display_name => 'AWS Instance ID',
+          :description => 'AWS Instance ID to Connect',
+          :required => 'required',
+          :recipes => ['aws::lb_connect', 'aws::lb_disconnect']
 
 attribute 'aws/lb/name',
-          display_name: 'AWS ELB Name',
-          description: 'AWS ELB Name',
-          required: 'required',
-          recipes: ['aws::lb_connect', 'aws::lb_disconnect']
+          :display_name => 'AWS ELB Name',
+          :description => 'AWS ELB Name',
+          :required => 'required',
+          :recipes => ['aws::lb_connect', 'aws::lb_disconnect']
