@@ -68,6 +68,6 @@ service 'postfix' do
   action :restart
 end
 
-execute 'alternatives --auto mta'
+#execute 'alternatives --auto mta'
 
 rightscale_marker :end
