@@ -1,26 +1,12 @@
-rightscale_marker :begin
+
+include_recipe 'python::pip'
 
 python_pip 'awscli' do
-  version '1.3.8'
+  #version '1.3.8'
   action :install
 end
 
-directory '/root/.aws' do
-  owner 'root'
-  group 'root'
-  mode '0600'
-  action :create
+aws 'create_cred_file' do
+  action :create_cred_file
 end
 
-template '/root/.aws/config' do
-  source 'aws_config.erb'
-  owner 'root'
-  group 'root'
-  mode '0600'
-  variables(aws_access_key_id: node[:aws][:aws_access_key_id],
-            aws_secret_access_key: node[:aws][:aws_secret_access_key],
-            aws_region: node[:aws][:region])
-  action :create
-end
-
-rightscale_marker :end

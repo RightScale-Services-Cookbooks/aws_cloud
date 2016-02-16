@@ -7,3 +7,4 @@ else
   fail 'OS Not Supported'
 end
 Chef::Log.info "Platform: #{node[:platform]}, CLI: #{node[:aws][:cli]}"
+default['build-essential']['compile_time'] = true 
